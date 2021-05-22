@@ -1,0 +1,32 @@
+# top level stuff you probably don't need to touch
+highlighter: rouge
+markdown: kramdown
+rdiscount:
+  extensions: [smart]
+permalink: /:title.html
+paginate: 5
+plugins: [jekyll-paginate]
+port: 3000
+safe: true
+
+
+# edit here to achieve your personal greatness
+url: http://ronaksakhuja.github.io/
+baseurl: /
+title: Ronak Sakhuja
+author: Ronak Sakhuja
+description: Personal blog and resume
+avatar: profile.png
+email: ronaksakhuja@gmail.com
+github: ronaksakhuja # username
+twitter: ronaksakhuja
+linkedin: in/ronaksakhuja
+# stackoverflow: username   #e.g: users/2735833/proton1h1
+# medium: username #e.g: NobelPeaceOslo
+#Comment out if you don't want disqus
+# disqus: username
+google_analytics: UA-69391421-1
+
+
+# needed for travis-ci build
+exclude: [vendor]
