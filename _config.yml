@@ -12,7 +12,7 @@ safe: true
 
 # edit here to achieve your personal greatness
 url: http://ronaksakhuja.github.io
-baseurl: 
+baseurl: /
 title: Ronak Sakhuja
 author: Ronak Sakhuja
 description: Personal blog and resume
