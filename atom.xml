@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  
+    <title type="text" xml:lang="en">Ronak Sakhuja</title>
+    <link type="application/atom+xml" rel="self" href="http://ronaksakhuja.github.io/atom.xml"/>
+  
+  <link href="http://ronaksakhuja.github.io/"/>
+  <id>http://ronaksakhuja.github.io/</id>
+  <updated>2022-06-11T11:26:15Z</updated>
+  <author>
+    <name>Ronak Sakhuja</name>
+    <email>ronaksakhuja@gmail.com</email>
+  </author>
+  <rights type="text">Copyright © 2022 Ronak Sakhuja. All rights reserved.</rights>
+  
+  <entry>
+  <title type="text">Project - DTU Farewell 2020</title>
+  <link rel="alternate" type="text/html" href="http://ronaksakhuja.github.io/post1.html" />
+  <id>http://ronaksakhuja.github.io/post1</id>
+  <published>2020-05-29T00:00:00Z</published>
+  <updated>2020-05-29T00:00:00Z</updated>
+  <content type="html"><![CDATA[ <h1 id="heading1">DTU Farewell 2020</h1>
+
+<p>I graduated from Delhi Technological University in 2020. If you still remember, that was the first year of the Covid-19 Pandemic. There was a lockdown all over the world, and things in New Delhi were not going any better. In normal times, we have a farewell party in our university consisting of Dance, music and everyone writing short farewell messages on each other's tshirts. These messages are called scribbles.</p>
+<p>
+With everything going Online, and our colleges being shut down, I along with my friends decided to make a website and try to replicate what we do in an offline farewell. We created a social media website for our farewell in a few days, built on <b>PHP Codeigniter framework and Mysql database</b> and launched it to our batch of more than 2000 students.
+</p>
+<h2>Features</h2>
+<ol>
+
+  <li> Scribble Wall
+  Each user has their own profiles on which other users can post their scribbles. Each scribble has a like functionality as well.
+  <li>DTU Photowall</li>
+  A common place for everyone to upload their memories of college. Everyone can see those and miss the beautiful 4 years they spent in the university.
+  <li>2 Truths and 1 Lie</li>
+  A game where every user puts in three statements on their profiles, and others come and vote to find which one of them is a lie
+  <li>Give a Title</li>
+  People can give other users a title, and everyone can like titles posted by others. It can be some funny memory associated with them.
+  <li>Profile page</li>
+  Each user can set their yearbook quote, display photo and their batch
+
+&lt;/ol&gt;
+  
+
+<hr />
+<h2>Tech Stack</h2>
+Backend is built on <b>PHP Codeigniter with Mysql database</b>.<br />
+Website was hosted on <b>Microsoft Azure Virtual Machine</b>, SSL provided by <b>letsencrypt</b>.<br />
+Implemented <b>OAuth2</b> using Google Login APIs.
+
+<hr />
+
+  <h2>Code</h2>
+The code is closed source at the moment. We plan to host this as a paid service in future for universities. Do get in touch with me to learn about any implementation we did in detail.
+
+<h2 id="media">Video Demo</h2>
+ 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/H9KZO6ec8mU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+
+  
+</li></ol>
+ ]]></content>
+</entry>
+
+
+
+</feed>
