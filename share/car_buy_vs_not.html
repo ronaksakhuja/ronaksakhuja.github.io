@@ -1,0 +1,2241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<base target="_blank">
+<title>BMW Timing Decision — Buy Now vs. Rent &amp; Wait</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4" integrity="sha384-NrKB+u6Ts6AtkIhwPixiKTzgSKNblyhlk0Sohlgar9UHUBzai/sgnNNWWd291xqt" crossorigin="anonymous" defer></script>
+
+<style>
+:root {
+    --bg: #f5f2ec;
+    --bg-alt: #ede8de;
+    --paper: #fbfaf6;
+    --surface: #ffffff;
+    --surface-hover: #f4f0e7;
+    --ink: #0f1a2e;
+    --ink-soft: #2a3547;
+    --text-primary: #101828;
+    --text-secondary: #4a5568;
+    --text-muted: #7a8497;
+    --border: #d9d2c2;
+    --border-strong: #b8ae97;
+    --rule: #ccc3ae;
+
+    --navy: #0f1a2e;
+    --navy-deep: #060b18;
+    --navy-soft: #1f2e4d;
+    --gold: #b8863b;
+    --gold-soft: #d4a656;
+    --gold-pale: #f2e4c3;
+    --sage: #4d6b53;
+    --claret: #8a2a3c;
+
+    --primary: var(--navy);
+    --accent: var(--gold);
+
+    --shadow-sm: 0 1px 2px rgba(15,26,46,0.06);
+    --shadow-md: 0 4px 16px rgba(15,26,46,0.08);
+    --shadow-lg: 0 12px 40px rgba(15,26,46,0.10);
+
+    --font-display: 'Fraunces', Georgia, serif;
+    --font-body: 'IBM Plex Sans', system-ui, sans-serif;
+    --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+}
+
+body.dark-mode {
+    --bg: #0a0f1c;
+    --bg-alt: #111828;
+    --paper: #0e1524;
+    --surface: #141c30;
+    --surface-hover: #1a2440;
+    --ink: #f4ecd7;
+    --ink-soft: #d8cfb8;
+    --text-primary: #ece7d3;
+    --text-secondary: #a6a598;
+    --text-muted: #6c7484;
+    --border: #24304a;
+    --border-strong: #3a4a6d;
+    --rule: #2a3552;
+
+    --navy: #f4ecd7;
+    --navy-deep: #ede4c9;
+    --navy-soft: #d8cfb8;
+    --gold: #e0b45a;
+    --gold-soft: #efc972;
+    --gold-pale: #443a20;
+    --sage: #90b498;
+    --claret: #d47a8b;
+
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.4);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.5);
+    --shadow-lg: 0 12px 40px rgba(0,0,0,0.6);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; scroll-padding-top: 2rem; }
+
+body {
+    font-family: var(--font-body);
+    color: var(--text-primary);
+    background: var(--bg);
+    line-height: 1.55;
+    font-weight: 400;
+    letter-spacing: -0.005em;
+    -webkit-font-smoothing: antialiased;
+    background-image:
+        radial-gradient(circle at 15% 8%, rgba(184,134,59,0.06) 0%, transparent 40%),
+        radial-gradient(circle at 85% 92%, rgba(15,26,46,0.05) 0%, transparent 45%);
+    background-attachment: fixed;
+    min-height: 100vh;
+}
+
+body.dark-mode {
+    background-image:
+        radial-gradient(circle at 15% 8%, rgba(224,180,90,0.08) 0%, transparent 40%),
+        radial-gradient(circle at 85% 92%, rgba(244,236,215,0.04) 0%, transparent 45%);
+}
+
+.container {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 3rem 2rem 4rem;
+}
+
+/* ========== TYPOGRAPHY ========== */
+h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    color: var(--ink);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    font-weight: 600;
+}
+h1 { font-size: clamp(2.4rem, 5.5vw, 4.2rem); font-weight: 700; letter-spacing: -0.03em; }
+h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 600; }
+h3 { font-size: 1.25rem; font-weight: 600; }
+h4 { font-size: 1rem; font-weight: 600; }
+
+.serif-em {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+}
+
+.eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--gold);
+    font-weight: 500;
+    display: inline-block;
+    margin-bottom: 0.75rem;
+}
+
+.mono { font-family: var(--font-mono); }
+
+/* ========== MASTHEAD ========== */
+.masthead {
+    border-top: 3px solid var(--ink);
+    border-bottom: 1px solid var(--rule);
+    padding: 0.9rem 0;
+    margin-bottom: 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+.masthead .lockup { color: var(--ink); font-weight: 600; letter-spacing: 0.2em; }
+.masthead .lockup .dot { color: var(--gold); }
+.masthead .meta { display: flex; gap: 1.5rem; }
+
+/* ========== HERO ========== */
+.hero {
+    padding: 1rem 0 3.5rem;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 3.5rem;
+    position: relative;
+}
+.hero-headline {
+    font-family: var(--font-display);
+    font-size: clamp(2.6rem, 6vw, 4.8rem);
+    line-height: 1.02;
+    letter-spacing: -0.035em;
+    color: var(--ink);
+    max-width: 22ch;
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+}
+.hero-headline em {
+    font-style: italic;
+    font-weight: 500;
+    color: var(--gold);
+}
+.hero-dek {
+    font-size: 1.15rem;
+    color: var(--text-secondary);
+    max-width: 58ch;
+    line-height: 1.55;
+    font-weight: 400;
+}
+
+/* ========== TALE OF THE TAPE (dual panel) ========== */
+.tape {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 0;
+    align-items: stretch;
+    margin: 3rem 0 4rem;
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+}
+.corner {
+    padding: 2.5rem 2rem;
+    position: relative;
+}
+.corner-a {
+    background: linear-gradient(135deg, var(--bg-alt) 0%, var(--paper) 100%);
+}
+.corner-b {
+    background: linear-gradient(225deg, var(--gold-pale) 0%, var(--paper) 100%);
+    border-left: 1px solid var(--border);
+}
+body.dark-mode .corner-a {
+    background: linear-gradient(135deg, #131a2b 0%, #0e1524 100%);
+}
+body.dark-mode .corner-b {
+    background: linear-gradient(225deg, #2a2515 0%, #0e1524 100%);
+}
+.corner-label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 0.4rem;
+}
+.corner-name {
+    font-family: var(--font-display);
+    font-size: 1.55rem;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: -0.015em;
+    margin-bottom: 1.75rem;
+    line-height: 1.15;
+}
+.corner-b .corner-name { color: var(--gold); }
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 0.65rem 0;
+    border-bottom: 1px dashed var(--rule);
+    font-size: 0.9rem;
+}
+.stat-row:last-child { border-bottom: none; }
+.stat-label { color: var(--text-secondary); }
+.stat-value {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+}
+.corner-total {
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+    border-top: 2px solid var(--ink);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+.corner-b .corner-total { border-top-color: var(--gold); }
+.corner-total-label {
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--ink);
+}
+.corner-total-value {
+    font-family: var(--font-display);
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+}
+.corner-b .corner-total-value { color: var(--gold); }
+
+.vs-divider {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 0.5rem;
+    background: var(--ink);
+    color: var(--gold-soft);
+    min-width: 90px;
+}
+body.dark-mode .vs-divider { background: var(--gold); color: var(--navy-deep); }
+.vs-glyph {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 2.6rem;
+    font-weight: 500;
+    line-height: 1;
+    margin-bottom: 0.4rem;
+}
+.vs-caption {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    opacity: 0.85;
+}
+
+.winner-ribbon {
+    position: absolute;
+    top: -1px;
+    right: -1px;
+    background: var(--gold);
+    color: var(--navy-deep);
+    padding: 0.35rem 0.9rem;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+/* ========== VERDICT CALLOUT ========== */
+.verdict {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 2.5rem 3rem;
+    border-radius: 4px;
+    margin: 3rem 0 4rem;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 3rem;
+    align-items: center;
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    overflow: hidden;
+}
+body.dark-mode .verdict {
+    background: linear-gradient(135deg, #1a1408 0%, #241a0d 100%);
+    border: 1px solid var(--gold);
+}
+.verdict::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px; height: 100%;
+    background: var(--gold);
+}
+.verdict-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.6rem;
+}
+.verdict-line {
+    font-family: var(--font-display);
+    font-size: 1.7rem;
+    line-height: 1.25;
+    color: var(--paper);
+    font-weight: 500;
+    letter-spacing: -0.015em;
+}
+body.dark-mode .verdict-line { color: var(--ink); }
+.verdict-line strong {
+    color: var(--gold-soft);
+    font-weight: 700;
+}
+.savings-figure {
+    text-align: right;
+    padding-left: 2rem;
+    border-left: 1px solid rgba(255,255,255,0.15);
+}
+body.dark-mode .savings-figure { border-left-color: rgba(244,236,215,0.15); }
+.savings-label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    margin-bottom: 0.4rem;
+}
+.savings-value {
+    font-family: var(--font-display);
+    font-size: 3.2rem;
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.03em;
+}
+.savings-sub {
+    color: rgba(244,236,215,0.65);
+    font-size: 0.8rem;
+    margin-top: 0.35rem;
+    font-family: var(--font-body);
+}
+body.dark-mode .savings-sub { color: var(--text-secondary); }
+
+/* ========== SECTION ========== */
+.section {
+    margin: 4.5rem 0;
+    scroll-margin-top: 2rem;
+}
+.section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--rule);
+}
+.section-number {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--gold);
+    letter-spacing: 0.18em;
+    font-weight: 500;
+}
+.section-title {
+    font-family: var(--font-display);
+    font-size: 1.85rem;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+    flex: 1;
+}
+.section-lede {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    max-width: 68ch;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+/* ========== TIMELINE ========== */
+.timeline-wrap {
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2.25rem 2rem;
+    box-shadow: var(--shadow-sm);
+}
+.timeline-scale {
+    position: relative;
+    height: 24px;
+    display: flex;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 0.4rem;
+}
+.timeline-scale span {
+    flex: 1;
+    text-align: left;
+    padding-left: 4px;
+    text-transform: uppercase;
+}
+.timeline-scale span:last-child { text-align: right; padding-left: 0; padding-right: 4px; }
+
+.timeline-track {
+    position: relative;
+    display: grid;
+    grid-template-columns: 27fr 28fr 45fr;
+    gap: 6px;
+    margin-top: 0.5rem;
+}
+.phase {
+    padding: 1.25rem 1.15rem;
+    border-radius: 4px;
+    position: relative;
+    color: var(--paper);
+    min-height: 130px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s;
+}
+.phase:hover { transform: translateY(-2px); }
+.phase-rent { background: linear-gradient(135deg, var(--navy-soft) 0%, var(--navy) 100%); }
+.phase-travel {
+    background: repeating-linear-gradient(
+        45deg,
+        var(--bg-alt),
+        var(--bg-alt) 10px,
+        var(--paper) 10px,
+        var(--paper) 20px
+    );
+    color: var(--ink);
+    border: 1px dashed var(--border-strong);
+}
+.phase-buy { background: linear-gradient(135deg, var(--gold) 0%, #a0722d 100%); color: var(--navy-deep); }
+
+body.dark-mode .phase-rent { background: linear-gradient(135deg, #2c3d63 0%, #1a2440 100%); color: var(--ink); }
+body.dark-mode .phase-travel {
+    background: repeating-linear-gradient(45deg, #141c30, #141c30 10px, #0e1524 10px, #0e1524 20px);
+    color: var(--text-primary);
+    border-color: var(--border-strong);
+}
+body.dark-mode .phase-buy { background: linear-gradient(135deg, #7a5e2b 0%, #4a3915 100%); color: var(--ink); }
+
+.phase-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin-bottom: 0.3rem;
+}
+.phase-tag {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    opacity: 0.75;
+    font-weight: 500;
+}
+.phase-days {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    background: rgba(255,255,255,0.15);
+    padding: 2px 8px;
+    border-radius: 20px;
+}
+.phase-travel .phase-days { background: rgba(15,26,46,0.08); }
+.phase-title {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.5rem;
+    line-height: 1.15;
+}
+.phase-dates {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    opacity: 0.85;
+    margin-bottom: 0.25rem;
+}
+.phase-cost {
+    font-family: var(--font-display);
+    font-size: 1.45rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+}
+.phase-cost small {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 400;
+    opacity: 0.7;
+    margin-left: 0.35rem;
+    letter-spacing: 0.02em;
+}
+.phase-note {
+    font-size: 0.78rem;
+    opacity: 0.85;
+    line-height: 1.35;
+    margin-top: 0.35rem;
+}
+
+.timeline-legend {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--rule);
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    flex-wrap: wrap;
+}
+.legend-swatch {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    vertical-align: middle;
+    margin-right: 0.4rem;
+}
+
+/* ========== ASSUMPTION CARDS ========== */
+.assumptions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0.75rem;
+}
+.assumption {
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--gold);
+    border-radius: 3px;
+    padding: 1.1rem 1.15rem;
+    transition: background 0.15s;
+}
+.assumption:hover { background: var(--surface-hover); }
+.assumption-label {
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    color: var(--text-muted);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+}
+.assumption-value {
+    font-family: var(--font-display);
+    font-size: 1.55rem;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+}
+.assumption-unit {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-top: 0.35rem;
+    font-weight: 400;
+}
+
+/* ========== FINANCIAL MODEL TABLE ========== */
+.model-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+.model-card {
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.75rem 1.75rem;
+    position: relative;
+}
+.model-card.winner {
+    border-color: var(--gold);
+    border-width: 2px;
+    background: linear-gradient(180deg, var(--gold-pale) 0%, var(--paper) 30%);
+}
+body.dark-mode .model-card.winner {
+    background: linear-gradient(180deg, #2a2515 0%, #0e1524 30%);
+}
+.model-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--rule);
+}
+.model-card-title {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: -0.015em;
+}
+.model-card-sub {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: 0.15rem;
+    font-family: var(--font-mono);
+    letter-spacing: 0.02em;
+}
+.winner-badge {
+    background: var(--gold);
+    color: var(--navy-deep);
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    padding: 3px 8px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 700;
+    border-radius: 3px;
+    align-self: flex-start;
+}
+.line-item {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: baseline;
+    padding: 0.7rem 0;
+    border-bottom: 1px dashed var(--rule);
+    font-size: 0.92rem;
+    gap: 1rem;
+}
+.line-item:last-of-type { border-bottom: none; }
+.line-label {
+    color: var(--text-primary);
+}
+.line-label small {
+    display: block;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    margin-top: 0.15rem;
+}
+.line-value {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+.line-item.subzero .line-value {
+    color: var(--sage);
+}
+.card-total {
+    margin-top: 1.25rem;
+    padding-top: 1.15rem;
+    border-top: 2px solid var(--ink);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: baseline;
+    gap: 1rem;
+}
+.winner .card-total { border-top-color: var(--gold); }
+.card-total-label {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink);
+}
+.card-total-value {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+}
+.winner .card-total-value { color: var(--gold); }
+
+/* ========== CHART CONTAINER ========== */
+.chart-wrap {
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2rem 2rem 1.5rem;
+    margin-bottom: 1.5rem;
+}
+.chart-wrap-title {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+}
+.chart-wrap-sub {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+    font-family: var(--font-mono);
+    letter-spacing: 0.02em;
+}
+.chart-holder {
+    position: relative;
+    height: 320px;
+    width: 100%;
+}
+.chart-holder-tall {
+    height: 380px;
+}
+
+/* ========== TWO-COL GRID ========== */
+.two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.75rem;
+}
+.two-col-block {
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.75rem;
+}
+.block-title {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--rule);
+    letter-spacing: -0.015em;
+}
+.block-title .glyph {
+    color: var(--gold);
+    font-family: var(--font-display);
+    font-style: italic;
+    margin-right: 0.4rem;
+}
+.check-list {
+    list-style: none;
+    padding: 0;
+}
+.check-list li {
+    padding: 0.7rem 0 0.7rem 1.8rem;
+    border-bottom: 1px dashed var(--rule);
+    position: relative;
+    font-size: 0.92rem;
+    line-height: 1.5;
+    color: var(--text-primary);
+}
+.check-list li:last-child { border-bottom: none; }
+.check-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 1.1rem;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--gold);
+}
+.check-list.risks li::before { background: var(--claret); }
+.check-list li strong {
+    display: block;
+    color: var(--ink);
+    font-weight: 600;
+    margin-bottom: 0.15rem;
+    font-family: var(--font-display);
+    font-size: 0.98rem;
+}
+
+/* ========== INSURANCE STRATEGY ========== */
+.insurance-strategy {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+.card-plate {
+    padding: 1.5rem;
+    border-radius: 4px;
+    background: var(--paper);
+    border: 1px solid var(--border);
+}
+.plate-title {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 0.35rem;
+    letter-spacing: -0.01em;
+}
+.plate-sub {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--gold);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+}
+.plate-list {
+    list-style: none;
+    padding: 0;
+    font-size: 0.88rem;
+    color: var(--text-primary);
+}
+.plate-list li {
+    padding: 0.4rem 0;
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+}
+.plate-list .yes { color: var(--sage); font-weight: 600; }
+.plate-list .no  { color: var(--claret); font-weight: 600; }
+.plate-list .warn { color: var(--gold); font-weight: 600; }
+
+/* ========== SCORECARD ========== */
+.scorecard {
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2.5rem 2rem;
+    box-shadow: var(--shadow-md);
+}
+.score-row {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    align-items: center;
+    padding: 1rem 0;
+    gap: 1.5rem;
+    border-bottom: 1px solid var(--rule);
+}
+.score-row.overall {
+    border-top: 2px solid var(--ink);
+    border-bottom: none;
+    padding-top: 1.5rem;
+    margin-top: 0.75rem;
+}
+.score-name {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    color: var(--ink);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+}
+.score-row.overall .score-name { font-size: 1.35rem; font-weight: 700; }
+.stars {
+    font-family: var(--font-mono);
+    font-size: 1.4rem;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+    line-height: 1;
+}
+.stars .empty { color: var(--border-strong); }
+.score-note {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    letter-spacing: 0.05em;
+    min-width: 40px;
+    text-align: right;
+}
+
+/* ========== RECOMMENDATION BOX ========== */
+.recommendation {
+    margin-top: 2.5rem;
+    padding: 2rem 2.25rem;
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 4px;
+    border-left: 4px solid var(--gold);
+    box-shadow: var(--shadow-lg);
+}
+body.dark-mode .recommendation {
+    background: linear-gradient(135deg, #1a1408 0%, #241a0d 100%);
+    border: 1px solid var(--gold);
+    border-left: 4px solid var(--gold);
+}
+.rec-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--gold);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+}
+.rec-headline {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    line-height: 1.35;
+    color: var(--paper);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    margin-bottom: 1rem;
+}
+body.dark-mode .rec-headline { color: var(--ink); }
+.rec-headline strong {
+    color: var(--gold-soft);
+    font-weight: 700;
+}
+.rec-actions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid rgba(255,255,255,0.15);
+}
+body.dark-mode .rec-actions { border-top-color: rgba(244,236,215,0.15); }
+.rec-action {
+    padding: 0.5rem 0;
+}
+.rec-action-num {
+    font-family: var(--font-display);
+    font-style: italic;
+    color: var(--gold);
+    font-size: 1.6rem;
+    font-weight: 700;
+    line-height: 1;
+    display: block;
+    margin-bottom: 0.35rem;
+}
+.rec-action-text {
+    font-size: 0.9rem;
+    color: rgba(244,236,215,0.9);
+    line-height: 1.45;
+}
+body.dark-mode .rec-action-text { color: var(--text-primary); }
+
+/* ========== NOTE ========== */
+.note {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    font-style: italic;
+    line-height: 1.55;
+    margin-top: 1rem;
+    font-family: var(--font-display);
+}
+
+/* ========== FOOTER ========== */
+.viz-footer {
+    margin-top: 5rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--rule);
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    line-height: 1.8;
+}
+.viz-footer a { color: var(--text-muted); text-decoration: underline; text-underline-offset: 3px; }
+
+/* ========== ANIMATIONS ========== */
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.ani {
+    opacity: 0;
+    animation: fadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.d1 { animation-delay: 0.05s; }
+.d2 { animation-delay: 0.15s; }
+.d3 { animation-delay: 0.25s; }
+.d4 { animation-delay: 0.35s; }
+.d5 { animation-delay: 0.45s; }
+.d6 { animation-delay: 0.55s; }
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 900px) {
+    .container { padding: 2rem 1.25rem 3rem; }
+    .tape { grid-template-columns: 1fr; }
+    .vs-divider { min-height: 60px; min-width: auto; padding: 1rem; }
+    .vs-glyph { font-size: 2rem; }
+    .corner-b { border-left: none; border-top: 1px solid var(--border); }
+    .verdict { grid-template-columns: 1fr; gap: 1.5rem; padding: 2rem 1.5rem; }
+    .savings-figure { text-align: left; padding-left: 0; border-left: none; border-top: 1px solid rgba(255,255,255,0.15); padding-top: 1.5rem; }
+    .timeline-track { grid-template-columns: 1fr; }
+    .model-grid { grid-template-columns: 1fr; }
+    .two-col { grid-template-columns: 1fr; }
+    .insurance-strategy { grid-template-columns: 1fr; }
+    .hero-headline { font-size: 2.6rem; }
+    .masthead { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+    .masthead .meta { gap: 0.9rem; }
+    .verdict-line { font-size: 1.3rem; }
+    .savings-value { font-size: 2.4rem; }
+}
+
+/* === INFRASTRUCTURE STYLES — customize colors via CSS custom properties === */
+.viz-menu {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 10000;
+    font-family: inherit;
+}
+.viz-menu-toggle {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    border: 1px solid var(--border, #e2e8f0);
+    background: var(--surface, #fff);
+    color: var(--text-secondary, #64748b);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s, border-color 0.15s, transform 0.15s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.viz-menu-toggle:hover {
+    background: var(--surface-hover, #f8fafc);
+    border-color: var(--border-strong, #cbd5e1);
+    transform: scale(1.05);
+}
+.viz-menu-panel {
+    position: absolute;
+    top: calc(100% + 6px);
+    right: 0;
+    min-width: 200px;
+    background: var(--surface, #fff);
+    border: 1px solid var(--border, #e2e8f0);
+    border-radius: 10px;
+    padding: 4px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    opacity: 0;
+    transform: translateY(-4px) scale(0.97);
+    pointer-events: none;
+    transition: opacity 0.15s, transform 0.15s;
+}
+.viz-menu.open .viz-menu-panel {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+}
+.viz-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 7px;
+    background: transparent;
+    color: var(--text-primary, #0f172a);
+    font-size: 0.85rem;
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.1s;
+    font-family: inherit;
+}
+.viz-menu-item:hover {
+    background: var(--surface-hover, #f1f5f9);
+}
+.viz-menu-icon {
+    width: 20px;
+    text-align: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+[data-animate] {
+    opacity: 0;
+    transition-property: opacity, transform, filter;
+    transition-duration: 0.6s;
+    transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+[data-animate="fade-up"] { transform: translateY(20px); }
+[data-animate="fade-down"] { transform: translateY(-20px); }
+[data-animate="fade-left"] { transform: translateX(-20px); }
+[data-animate="fade-right"] { transform: translateX(20px); }
+[data-animate="scale-up"] { transform: scale(0.95); }
+[data-animate="blur-in"] { filter: blur(8px); }
+[data-animate].is-visible {
+    opacity: 1;
+    transform: none;
+    filter: none;
+}
+
+@media print {
+    .viz-menu { display: none !important; }
+    body { background: white !important; color: black !important; }
+    .dark-mode { all: unset; }
+    .card, .section, section { break-inside: avoid; }
+    .animate-in { opacity: 1 !important; animation: none !important; }
+    .ani { opacity: 1 !important; animation: none !important; }
+    [data-animate] { opacity: 1 !important; transform: none !important; filter: none !important; transition: none !important; }
+    @page { margin: 1.5cm; }
+}
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    [data-animate] {
+        opacity: 1 !important;
+        transform: none !important;
+        filter: none !important;
+        transition: none !important;
+    }
+    .ani { opacity: 1 !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- Hamburger menu -->
+<nav class="viz-menu" id="vizMenu" aria-label="Visualization controls">
+    <button class="viz-menu-toggle" onclick="toggleMenu()" aria-label="Toggle menu" aria-expanded="false">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="3" y1="5" x2="15" y2="5"/>
+            <line x1="3" y1="9" x2="15" y2="9"/>
+            <line x1="3" y1="13" x2="15" y2="13"/>
+        </svg>
+    </button>
+    <div class="viz-menu-panel" id="vizMenuPanel">
+        <button onclick="toggleTheme()" class="viz-menu-item">
+            <span class="viz-menu-icon" id="themeIcon">◐</span>
+            <span id="themeLabel">Toggle dark mode</span>
+        </button>
+        <button onclick="window.print()" class="viz-menu-item">
+            <span class="viz-menu-icon">⎙</span>
+            <span>Print / Save as PDF</span>
+        </button>
+        <button onclick="toggleFullscreen()" class="viz-menu-item">
+            <span class="viz-menu-icon" id="fsIcon">⛶</span>
+            <span id="fsLabel">Fullscreen</span>
+        </button>
+        <hr style="border:none;border-top:1px solid var(--border,#e2e8f0);margin:2px 8px">
+        <button onclick="saveAsImage()" class="viz-menu-item" id="saveImgBtn">
+            <span class="viz-menu-icon">📷</span>
+            <span>Save as image</span>
+        </button>
+    </div>
+</nav>
+
+<div class="container">
+
+    <!-- MASTHEAD -->
+    <div class="masthead ani d1">
+        <div class="lockup">Ronak Sakhuja <span class="dot">·</span> Personal Capital Brief</div>
+        <div class="meta">
+            <span>Vol. I</span>
+            <span>Prepared 02 July 2026</span>
+            <span>Confidential</span>
+        </div>
+    </div>
+
+    <!-- HERO -->
+    <div class="hero">
+        <div class="ani d1">
+            <span class="eyebrow">Decision Memo · Vehicle Acquisition Timing</span>
+        </div>
+        <h1 class="hero-headline ani d2">The BMW is coming. <br/>The question is <em>when</em>.</h1>
+        <p class="hero-dek ani d3">
+            A structured evaluation of purchasing a $35,000 BMW today versus renting through
+            summer travel and buying after the return window. Modeled across a 111-day comparison
+            period at true opportunity cost, with a break-even envelope and a shortlist of
+            unmodeled tailwinds that favor waiting.
+        </p>
+    </div>
+
+    <!-- TALE OF THE TAPE -->
+    <section class="tape ani d4">
+        <div class="corner corner-a">
+            <div class="corner-label">Option A · The Now</div>
+            <h2 class="corner-name">Buy the BMW on&nbsp;July 5</h2>
+            <div class="stat-row"><span class="stat-label">Comparison window</span><span class="stat-value">111 days</span></div>
+            <div class="stat-row"><span class="stat-label">Insurance (3.65 mo)</span><span class="stat-value">$803</span></div>
+            <div class="stat-row"><span class="stat-label">Depreciation @ 10%/yr</span><span class="stat-value">$1,064</span></div>
+            <div class="stat-row"><span class="stat-label">Opp. cost on $35k @ 5.5%</span><span class="stat-value">$585</span></div>
+            <div class="stat-row"><span class="stat-label">Opp. cost on tax + reg @ 3%</span><span class="stat-value">$35</span></div>
+            <div class="corner-total">
+                <span class="corner-total-label">Ownership Cost</span>
+                <span class="corner-total-value">$2,487</span>
+            </div>
+        </div>
+
+        <div class="vs-divider">
+            <div class="vs-glyph">vs.</div>
+            <div class="vs-caption">The Tape</div>
+        </div>
+
+        <div class="corner corner-b">
+            <div class="winner-ribbon">★ Recommended</div>
+            <div class="corner-label">Option B · The Wait</div>
+            <h2 class="corner-name">Rent, then buy in&nbsp;Oct–Nov</h2>
+            <div class="stat-row"><span class="stat-label">Rental #1 · 30 days (coupon)</span><span class="stat-value">$850</span></div>
+            <div class="stat-row"><span class="stat-label">Rental #2 · 31 days</span><span class="stat-value">$878</span></div>
+            <div class="stat-row"><span class="stat-label">Travel period · 50 days</span><span class="stat-value">$0</span></div>
+            <div class="stat-row"><span class="stat-label">Ownership costs during period</span><span class="stat-value">$0</span></div>
+            <div class="stat-row"><span class="stat-label">Better CPO price in Oct/Nov</span><span class="stat-value">Bonus ↑</span></div>
+            <div class="corner-total">
+                <span class="corner-total-label">Out-of-Pocket</span>
+                <span class="corner-total-value">$1,728</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- VERDICT -->
+    <div class="verdict ani d5">
+        <div>
+            <div class="verdict-eyebrow">The Bottom Line</div>
+            <div class="verdict-line">
+                Renting through summer and buying the BMW after the return window is projected to save
+                approximately <strong>$759</strong> — before crediting the year-end CPO price advantage,
+                which the model does not attempt to quantify.
+            </div>
+        </div>
+        <div class="savings-figure">
+            <div class="savings-label">Estimated Savings</div>
+            <div class="savings-value">$759</div>
+            <div class="savings-sub">≈ 30% lower cost of use over 111 days</div>
+        </div>
+    </div>
+
+    <!-- ========== TIMELINE ========== -->
+    <section class="section" id="timeline">
+        <div class="section-header ani d1">
+            <div class="section-number">§ 01</div>
+            <h2 class="section-title">The Timeline</h2>
+        </div>
+        <p class="section-lede ani d2">
+            Four consecutive phases across summer and early fall. Two coupon-locked rentals frame
+            a 50-day travel window in which no car is required at all — the phase where owning
+            has the greatest opportunity cost.
+        </p>
+
+        <div class="timeline-wrap ani d3">
+            <div class="timeline-scale">
+                <span>Jul</span><span>Aug</span><span>Sep</span><span>Oct</span><span>Nov</span>
+            </div>
+            <div class="timeline-track">
+                <div class="phase phase-rent">
+                    <div>
+                        <div class="phase-header">
+                            <span class="phase-tag">Rental #1</span>
+                            <span class="phase-days">30 days</span>
+                        </div>
+                        <div class="phase-title">Ford Mustang Mach-E</div>
+                        <div class="phase-dates">Jul 5 → Aug 4</div>
+                    </div>
+                    <div>
+                        <div class="phase-cost">$850 <small>· $28.33/day, unlimited miles</small></div>
+                        <div class="phase-note">Coupon-locked rate. Amex Platinum PCRP for damage.</div>
+                    </div>
+                </div>
+
+                <div class="phase phase-rent">
+                    <div>
+                        <div class="phase-header">
+                            <span class="phase-tag">Rental #2</span>
+                            <span class="phase-days">31 days</span>
+                        </div>
+                        <div class="phase-title">Continuation Rental</div>
+                        <div class="phase-dates">Aug 4 → Sep 4</div>
+                    </div>
+                    <div>
+                        <div class="phase-cost">$878 <small>· same daily rate assumed</small></div>
+                        <div class="phase-note">Bridge to travel departure. Re-verify GEICO liability coverage.</div>
+                    </div>
+                </div>
+
+                <div class="phase phase-buy">
+                    <div>
+                        <div class="phase-header">
+                            <span class="phase-tag">Return → Purchase</span>
+                            <span class="phase-days">27 days</span>
+                        </div>
+                        <div class="phase-title">Shop &amp; acquire the BMW</div>
+                        <div class="phase-dates">Oct 24 → Nov 20</div>
+                    </div>
+                    <div>
+                        <div class="phase-cost">CPO window</div>
+                        <div class="phase-note">Year-end incentives, model-year turnover, deeper inventory.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Travel band overlay -->
+            <div style="margin-top: 8px; padding: 1rem 1.15rem; border: 1px dashed var(--border-strong); border-radius: 4px; background: repeating-linear-gradient(45deg, var(--bg-alt), var(--bg-alt) 8px, var(--paper) 8px, var(--paper) 16px); display: flex; justify-content: space-between; align-items: center; gap: 1rem;">
+                <div>
+                    <div style="font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.2rem;">Travel · No car required</div>
+                    <div style="font-family: var(--font-display); font-weight: 600; color: var(--ink);">Sep 4 → Oct 24 · <span style="color: var(--sage);">$0 in vehicle costs</span></div>
+                </div>
+                <div style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--ink); font-weight: 600;">50 days</div>
+            </div>
+
+            <div class="timeline-legend">
+                <span><span class="legend-swatch" style="background: var(--navy-soft);"></span>Rental phase</span>
+                <span><span class="legend-swatch" style="background: var(--bg-alt); border: 1px dashed var(--border-strong);"></span>Travel · no vehicle</span>
+                <span><span class="legend-swatch" style="background: var(--gold);"></span>Purchase window</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== ASSUMPTIONS ========== -->
+    <section class="section" id="assumptions">
+        <div class="section-header" data-animate="fade-up">
+            <div class="section-number">§ 02</div>
+            <h2 class="section-title">The Assumptions</h2>
+        </div>
+        <p class="section-lede" data-animate="fade-up" data-delay="100">
+            The model is deliberately conservative — every input is either quoted directly, taken from a signed rental, or benchmarked against a low-friction alternative use of the same capital.
+        </p>
+
+        <div class="assumptions">
+            <div class="assumption" data-animate="fade-up" data-delay="0"><div class="assumption-label">BMW target</div><div class="assumption-value">$35k</div><div class="assumption-unit">CPO purchase price</div></div>
+            <div class="assumption" data-animate="fade-up" data-delay="50"><div class="assumption-label">Insurance</div><div class="assumption-value">$220<span style="font-size:0.9rem; color:var(--text-muted);">/mo</span></div><div class="assumption-unit">Once titled</div></div>
+            <div class="assumption" data-animate="fade-up" data-delay="100"><div class="assumption-label">Depreciation</div><div class="assumption-value">10<span style="font-size:1.2rem;">%</span></div><div class="assumption-unit">Annualized on $35k CPO</div></div>
+            <div class="assumption" data-animate="fade-up" data-delay="150"><div class="assumption-label">$35k opp. cost</div><div class="assumption-value">5.5<span style="font-size:1.2rem;">%</span></div><div class="assumption-unit">Annualized, invested elsewhere</div></div>
+            <div class="assumption" data-animate="fade-up" data-delay="200"><div class="assumption-label">Tax + reg opp.</div><div class="assumption-value">3<span style="font-size:1.2rem;">%</span></div><div class="assumption-unit">On ~$3.2k, delayed payment</div></div>
+            <div class="assumption" data-animate="fade-up" data-delay="250"><div class="assumption-label">Rental rate</div><div class="assumption-value">$28<span style="font-size:1.2rem;">.33/day</span></div><div class="assumption-unit">Coupon-locked, unlimited mi.</div></div>
+        </div>
+        <div class="note">Registration, routine maintenance, fuel, and sales tax are excluded — they occur under either option and net out. The 3% opportunity cost on delayed tax + registration captures the modest carry from paying those in November rather than July.</div>
+    </section>
+
+    <!-- ========== FINANCIAL MODEL ========== -->
+    <section class="section" id="model">
+        <div class="section-header" data-animate="fade-up">
+            <div class="section-number">§ 03</div>
+            <h2 class="section-title">The Financial Model</h2>
+        </div>
+        <p class="section-lede" data-animate="fade-up" data-delay="100">
+            Both options are priced across the same 111-day window (Jul&nbsp;5 → Oct&nbsp;24) so the comparison is apples-to-apples. Option A pays to own throughout, including 50 days of unused parking; Option B pays only when a car is actually being driven.
+        </p>
+
+        <div class="model-grid">
+            <!-- Option A -->
+            <div class="model-card" data-animate="fade-up" data-delay="0">
+                <div class="model-card-header">
+                    <div>
+                        <div class="model-card-title">Option A · Buy Now</div>
+                        <div class="model-card-sub">Purchase July 5, drive &amp; park</div>
+                    </div>
+                </div>
+                <div class="line-item"><span class="line-label">Insurance<small>3.65 months at $220/mo</small></span><span class="line-value">$803</span></div>
+                <div class="line-item"><span class="line-label">Depreciation<small>10%/yr on $35,000 for 111 days</small></span><span class="line-value">$1,064</span></div>
+                <div class="line-item"><span class="line-label">Opportunity cost — vehicle<small>$35,000 at 5.5% for 111 days</small></span><span class="line-value">$585</span></div>
+                <div class="line-item"><span class="line-label">Opportunity cost — tax + reg<small>~$3,200 at 3% for early payment</small></span><span class="line-value">$35</span></div>
+                <div class="card-total">
+                    <span class="card-total-label">Ownership Cost</span>
+                    <span class="card-total-value">$2,487</span>
+                </div>
+            </div>
+
+            <!-- Option B -->
+            <div class="model-card winner" data-animate="fade-up" data-delay="150">
+                <div class="model-card-header">
+                    <div>
+                        <div class="model-card-title">Option B · Rent, then Buy</div>
+                        <div class="model-card-sub">Only pay when actually driving</div>
+                    </div>
+                    <span class="winner-badge">★ Winner</span>
+                </div>
+                <div class="line-item"><span class="line-label">Rental #1 · Jul 5–Aug 4<small>30 days, coupon-locked</small></span><span class="line-value">$850</span></div>
+                <div class="line-item"><span class="line-label">Rental #2 · Aug 4–Sep 4<small>31 days at same rate</small></span><span class="line-value">$878</span></div>
+                <div class="line-item subzero"><span class="line-label">Travel period · Sep 4–Oct 24<small>50 days, no car in service</small></span><span class="line-value">$0</span></div>
+                <div class="line-item subzero"><span class="line-label">Insurance, depreciation, financing<small>None accrue — no vehicle owned yet</small></span><span class="line-value">$0</span></div>
+                <div class="card-total">
+                    <span class="card-total-label">Out-of-Pocket</span>
+                    <span class="card-total-value">$1,728</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="note">Delta: <strong style="color: var(--gold); font-family: var(--font-mono); font-style: normal;">–$759</strong> in favor of Option B. Effective daily cost: $15.57/day (rent + wait) vs. $22.40/day (own throughout).</div>
+    </section>
+
+    <!-- ========== COST COMPARISON CHART ========== -->
+    <section class="section" id="cost-comparison">
+        <div class="section-header" data-animate="fade-up">
+            <div class="section-number">§ 04</div>
+            <h2 class="section-title">Cost Attribution</h2>
+        </div>
+        <p class="section-lede" data-animate="fade-up" data-delay="100">
+            Where every dollar lands in each option. Insurance and depreciation dominate ownership cost — precisely the two line items that continue to accumulate during travel.
+        </p>
+
+        <div class="chart-wrap" data-animate="fade-up" data-delay="150">
+            <div class="chart-wrap-title">Total 111-day cost by category</div>
+            <div class="chart-wrap-sub">Stacked · USD · lower is better</div>
+            <div class="chart-holder">
+                <canvas id="costChart"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== BREAK-EVEN ========== -->
+    <section class="section" id="break-even">
+        <div class="section-header" data-animate="fade-up">
+            <div class="section-number">§ 05</div>
+            <h2 class="section-title">The Break-Even Envelope</h2>
+        </div>
+        <p class="section-lede" data-animate="fade-up" data-delay="100">
+            The rental rate does not need to beat the daily cost of ownership. It needs to beat the daily cost of ownership <em>averaged only across the days a car is actually being rented</em> — because the travel period contributes zero to Option B.
+        </p>
+
+        <div class="chart-wrap" data-animate="fade-up" data-delay="150">
+            <div class="chart-wrap-title">Daily rental rate vs. break-even threshold</div>
+            <div class="chart-wrap-sub">Cumulative cost over 111 days · Option B stays below Option A as long as the rental rate is under $40.77/day</div>
+            <div class="chart-holder chart-holder-tall">
+                <canvas id="breakEvenChart"></canvas>
+            </div>
+        </div>
+
+        <div class="assumptions" style="margin-top: 1.5rem;">
+            <div class="assumption" data-animate="fade-up" data-delay="0"><div class="assumption-label">Actual daily rental</div><div class="assumption-value" style="color: var(--sage);">$28.33</div><div class="assumption-unit">Coupon-locked rate</div></div>
+            <div class="assumption" data-animate="fade-up" data-delay="80"><div class="assumption-label">Break-even threshold</div><div class="assumption-value">$40.77</div><div class="assumption-unit">Rate at which options tie</div></div>
+            <div class="assumption" data-animate="fade-up" data-delay="160"><div class="assumption-label">Safety margin</div><div class="assumption-value" style="color: var(--sage);">$12.44<span style="font-size:0.9rem; color:var(--text-muted);">/day</span></div><div class="assumption-unit">30% cushion below break-even</div></div>
+            <div class="assumption" data-animate="fade-up" data-delay="240"><div class="assumption-label">Effective daily cost</div><div class="assumption-value">$15.57</div><div class="assumption-unit">Option B, averaged over 111 days</div></div>
+        </div>
+    </section>
+
+    <!-- ========== HIDDEN BENEFITS & RISKS ========== -->
+    <section class="section" id="benefits-risks">
+        <div class="section-header" data-animate="fade-up">
+            <div class="section-number">§ 06</div>
+            <h2 class="section-title">Unmodeled Factors</h2>
+        </div>
+        <p class="section-lede" data-animate="fade-up" data-delay="100">
+            The financial delta above understates the case for waiting. These qualitative factors would only widen the gap, but they are difficult to price and are therefore excluded from the primary calculation.
+        </p>
+
+        <div class="two-col">
+            <div class="two-col-block" data-animate="fade-up" data-delay="0">
+                <div class="block-title"><span class="glyph">+</span>Tailwinds for waiting</div>
+                <ul class="check-list">
+                    <li><strong>Q4 pricing pressure.</strong> October–November typically brings model-year turnover, end-of-year clearance, and fresher CPO inventory. A 2–3% price improvement on $35k pays for the entire rental spend.</li>
+                    <li><strong>Cash stays deployed.</strong> The $35k remains invested during the delay — additional yield the model already partially credits, but conservatively.</li>
+                    <li><strong>Negotiating leverage.</strong> No pressure to close, ability to walk away, and broader shortlist all improve terms.</li>
+                    <li><strong>No wasted miles.</strong> Every mile driven in the rental is a mile not accrued on the BMW's odometer.</li>
+                    <li><strong>Flexibility to hold out.</strong> If the right car isn't listed by Nov 20, the schedule tolerates a slip.</li>
+                </ul>
+            </div>
+
+            <div class="two-col-block" data-animate="fade-up" data-delay="150">
+                <div class="block-title"><span class="glyph">!</span>Risks &amp; watchouts</div>
+                <ul class="check-list risks">
+                    <li><strong>Rental availability.</strong> Requires re-booking Rental #2 with the same coupon or an equivalent rate. Book early.</li>
+                    <li><strong>Insurance verification.</strong> GEICO liability extension needs written confirmation before Rental #1 begins.</li>
+                    <li><strong>BMW price drop may not materialize.</strong> The base case is agnostic on this; if prices hold flat, the savings are still ~$759.</li>
+                    <li><strong>Rental price shock.</strong> Even a $10/day rate increase on Rental #2 preserves &gt;$450 in savings.</li>
+                    <li><strong>Unforeseen need for a car during travel.</strong> Low probability; a one-off rental would cost &lt;$100/day.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== INSURANCE STRATEGY ========== -->
+    <section class="section" id="insurance">
+        <div class="section-header" data-animate="fade-up">
+            <div class="section-number">§ 07</div>
+            <h2 class="section-title">Insurance Playbook</h2>
+        </div>
+        <p class="section-lede" data-animate="fade-up" data-delay="100">
+            Two coverage layers stack to eliminate a full CDW purchase from the rental agency. Verification of the second layer is the single highest-priority pre-trip task.
+        </p>
+
+        <div class="insurance-strategy">
+            <div class="card-plate" data-animate="fade-up" data-delay="0">
+                <div class="plate-title">Amex Platinum · Premium Car Rental Protection</div>
+                <div class="plate-sub">Damage &amp; theft layer</div>
+                <ul class="plate-list">
+                    <li><span class="yes">✓</span> Enroll before pick-up; flat ~$16–18 per rental</li>
+                    <li><span class="yes">✓</span> Primary coverage on collision, theft, damage</li>
+                    <li><span class="yes">✓</span> Valid up to 42 consecutive days per rental</li>
+                    <li><span class="no">✗</span> Does NOT include third-party liability</li>
+                    <li><span class="yes">✓</span> Charge every rental to the Platinum card</li>
+                </ul>
+            </div>
+
+            <div class="card-plate" data-animate="fade-up" data-delay="150">
+                <div class="plate-title">GEICO · Liability Extension</div>
+                <div class="plate-sub">Third-party liability layer</div>
+                <ul class="plate-list">
+                    <li><span class="warn">⚠</span> Verify: liability extends to rentals in your own name</li>
+                    <li><span class="warn">⚠</span> Confirm: named-driver status on partner's policy is sufficient</li>
+                    <li><span class="warn">⚠</span> Get the confirmation in writing (email or PDF)</li>
+                    <li><span class="warn">⚠</span> Do this before Jul 5 pick-up</li>
+                    <li><span class="no">✗</span> Do NOT rely on rental agency's oral assurance</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== SCORECARD & RECOMMENDATION ========== -->
+    <section class="section" id="recommendation">
+        <div class="section-header" data-animate="fade-up">
+            <div class="section-number">§ 08</div>
+            <h2 class="section-title">The Verdict</h2>
+        </div>
+
+        <div class="scorecard" data-animate="fade-up" data-delay="100">
+            <div class="score-row">
+                <span class="score-name">Financial advantage</span>
+                <span class="stars">★★★★★</span>
+                <span class="score-note">5 / 5</span>
+            </div>
+            <div class="score-row">
+                <span class="score-name">Flexibility &amp; optionality</span>
+                <span class="stars">★★★★★</span>
+                <span class="score-note">5 / 5</span>
+            </div>
+            <div class="score-row">
+                <span class="score-name">Risk profile</span>
+                <span class="stars">★★★★<span class="empty">★</span></span>
+                <span class="score-note">4 / 5</span>
+            </div>
+            <div class="score-row">
+                <span class="score-name">Purchase timing edge</span>
+                <span class="stars">★★★★★</span>
+                <span class="score-note">5 / 5</span>
+            </div>
+            <div class="score-row overall">
+                <span class="score-name">Overall Recommendation</span>
+                <span class="stars">★★★★★</span>
+                <span class="score-note">5 / 5</span>
+            </div>
+        </div>
+
+        <div class="recommendation" data-animate="fade-up" data-delay="200">
+            <div class="rec-eyebrow">Recommended Course of Action</div>
+            <div class="rec-headline">
+                Execute the <strong>rent-then-buy</strong> playbook. Save an estimated
+                <strong>$759</strong> in direct cost of use over 111 days, keep $35k invested
+                through Q4, and enter the BMW purchase with maximum leverage during the
+                seasonal window.
+            </div>
+            <div class="rec-actions">
+                <div class="rec-action">
+                    <span class="rec-action-num">01</span>
+                    <div class="rec-action-text">Confirm GEICO liability extension in writing this week.</div>
+                </div>
+                <div class="rec-action">
+                    <span class="rec-action-num">02</span>
+                    <div class="rec-action-text">Enroll Amex PCRP and pick up Rental #1 on July 5.</div>
+                </div>
+                <div class="rec-action">
+                    <span class="rec-action-num">03</span>
+                    <div class="rec-action-text">Book Rental #2 by mid-July to lock the same rate.</div>
+                </div>
+                <div class="rec-action">
+                    <span class="rec-action-num">04</span>
+                    <div class="rec-action-text">Return Rental #2 on Sep 4, depart with zero ongoing car cost.</div>
+                </div>
+                <div class="rec-action">
+                    <span class="rec-action-num">05</span>
+                    <div class="rec-action-text">Begin CPO shortlist on Oct 24; close between Oct 24 and Nov 20.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="viz-footer">
+        Ronak Sakhuja · 02 July 2026<br/>
+        Generated by <a href="https://fburl.com/claude-templates/k5rd6ab0">/visualize</a> claude skill
+    </div>
+
+</div>
+
+<script>
+// Menu toggle
+function toggleMenu() {
+    const menu = document.getElementById('vizMenu');
+    const toggle = menu.querySelector('.viz-menu-toggle');
+    const isOpen = menu.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', isOpen);
+}
+document.addEventListener('click', function(e) {
+    const menu = document.getElementById('vizMenu');
+    if (menu && !menu.contains(e.target)) menu.classList.remove('open');
+});
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        const menu = document.getElementById('vizMenu');
+        if (menu) menu.classList.remove('open');
+    }
+});
+
+function toggleTheme() {
+    const isDark = document.body.classList.toggle('dark-mode');
+    localStorage.setItem('visualize-dark-mode', isDark);
+    updateThemeLabel();
+    if (window._rerenderCharts) window._rerenderCharts();
+}
+function updateThemeLabel() {
+    const isDark = document.body.classList.contains('dark-mode');
+    const icon = document.getElementById('themeIcon');
+    const label = document.getElementById('themeLabel');
+    if (icon) icon.textContent = isDark ? '☀' : '◐';
+    if (label) label.textContent = isDark ? 'Light mode' : 'Dark mode';
+}
+if (localStorage.getItem('visualize-dark-mode') === 'true' ||
+    (!localStorage.getItem('visualize-dark-mode') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    document.body.classList.add('dark-mode');
+}
+updateThemeLabel();
+
+function toggleFullscreen() {
+    if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+    } else {
+        document.exitFullscreen();
+    }
+}
+document.addEventListener('fullscreenchange', function() {
+    const icon = document.getElementById('fsIcon');
+    const label = document.getElementById('fsLabel');
+    const isFs = !!document.fullscreenElement;
+    if (icon) icon.textContent = isFs ? '⛶' : '⛶';
+    if (label) label.textContent = isFs ? 'Exit fullscreen' : 'Fullscreen';
+});
+
+(function initScrollReveal() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.querySelectorAll('[data-animate]').forEach(function(el) {
+            el.classList.add('is-visible');
+        });
+        return;
+    }
+    var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+                var el = entry.target;
+                var delay = parseInt(el.getAttribute('data-delay') || '0', 10);
+                var duration = el.getAttribute('data-duration');
+                if (duration) el.style.transitionDuration = duration + 'ms';
+                if (delay > 0) {
+                    setTimeout(function() { el.classList.add('is-visible'); }, delay);
+                } else {
+                    el.classList.add('is-visible');
+                }
+                observer.unobserve(el);
+            }
+        });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('[data-animate]').forEach(function(el) {
+        observer.observe(el);
+    });
+})();
+
+(function initSlideHash() {
+    var slides = document.querySelectorAll('.slide');
+    if (slides.length < 2) return;
+    var lastHash = '';
+    function syncHash() {
+        for (var i = 0; i < slides.length; i++) {
+            if (slides[i].classList.contains('active')) {
+                var h = '#' + (i + 1);
+                if (h !== lastHash) { lastHash = h; history.replaceState(null, '', h); }
+                return;
+            }
+        }
+    }
+    var observer = new MutationObserver(syncHash);
+    for (var i = 0; i < slides.length; i++) {
+        observer.observe(slides[i], { attributes: true, attributeFilter: ['class'] });
+    }
+})();
+
+function loadHtml2Canvas() {
+    if (typeof html2canvas !== 'undefined') return Promise.resolve();
+    return new Promise(function(resolve, reject) {
+        var script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+        script.integrity = 'sha384-ZZ1pncU3bQe8y31yfZdMFdSpttDoPmOZg2wguVK9almUodir1PghgT0eY7Mrty8H';
+        script.crossOrigin = 'anonymous';
+        script.onload = resolve;
+        script.onerror = function() { reject(new Error('html2canvas load failed')); };
+        document.head.appendChild(script);
+    });
+}
+
+function saveAsImage() {
+    var btn = document.getElementById('saveImgBtn');
+    var label = btn.querySelector('span:last-child');
+    var origText = label.textContent;
+    label.textContent = 'Loading...';
+    btn.style.pointerEvents = 'none';
+    loadHtml2Canvas().then(function() {
+        label.textContent = 'Capturing...';
+        doCapture(btn, label, origText);
+    }).catch(function(err) {
+        console.error('Failed to load html2canvas:', err);
+        label.textContent = origText;
+        btn.style.pointerEvents = '';
+        alert('Could not load screenshot library. Try Print / Save as PDF instead.');
+    });
+}
+
+function doCapture(btn, label, origText) {
+    var menu = document.getElementById('vizMenu');
+    menu.style.display = 'none';
+    var target = document.querySelector('.container') || document.body;
+    var overrideStyle = document.createElement('style');
+    overrideStyle.id = 'html2canvas-capture-overrides';
+    overrideStyle.textContent = [
+        '*, *::before, *::after { animation-play-state: paused !important; animation-delay: 0s !important; animation-duration: 0s !important; transition-duration: 0s !important; }',
+        '.ani, .animate-in, [class*="delay-"], .d1,.d2,.d3,.d4,.d5,.d6,.d7,.d8,.d9,.d10, [data-animate] { opacity: 1 !important; transform: none !important; filter: none !important; }',
+        '.viz-menu-panel { opacity: 0 !important; pointer-events: none !important; }'
+    ].join('\n');
+    document.head.appendChild(overrideStyle);
+    var origBg = target.style.background;
+    if (target !== document.body) target.style.background = getComputedStyle(document.body).backgroundColor || '#ffffff';
+    var scrollPos = window.scrollY;
+    window.scrollTo(0, 0);
+    var capture = function() {
+        void target.offsetHeight;
+        var origGCS = window.getComputedStyle;
+        if (typeof Proxy !== 'undefined') {
+            var cvs = document.createElement('canvas');
+            cvs.width = cvs.height = 1;
+            var ctx = cvs.getContext('2d');
+            function fixColor(val) {
+                if (typeof val !== 'string' || val.indexOf('color(') === -1) return val;
+                ctx.clearRect(0, 0, 1, 1);
+                ctx.fillStyle = 'rgba(0,0,0,0)';
+                ctx.fillStyle = val;
+                ctx.fillRect(0, 0, 1, 1);
+                var d = ctx.getImageData(0, 0, 1, 1).data;
+                return 'rgba(' + d[0] + ',' + d[1] + ',' + d[2] + ',' + (d[3] / 255).toFixed(3) + ')';
+            }
+            window.getComputedStyle = function(el, pseudo) {
+                var style = origGCS.call(this, el, pseudo);
+                return new Proxy(style, {
+                    get: function(target, prop) {
+                        if (prop === 'getPropertyValue') return function(name) { return fixColor(target.getPropertyValue(name)); };
+                        var v = target[prop];
+                        if (typeof v === 'function') return v.bind(target);
+                        return fixColor(v);
+                    }
+                });
+            };
+        }
+        html2canvas(target, {
+            scale: 2, useCORS: true, allowTaint: false, logging: false,
+            onclone: function(clonedDoc) {
+                var els = clonedDoc.querySelectorAll('.ani, .animate-in, [class*="delay-"], [data-animate]');
+                for (var i = 0; i < els.length; i++) {
+                    els[i].style.opacity = '1';
+                    els[i].style.transform = 'none';
+                    els[i].style.filter = 'none';
+                }
+            }
+        }).then(function(canvas) {
+            var filename = (document.title || 'visualization') + '.png';
+            canvas.toBlob(function(blob) {
+                if (!blob) { alert('Screenshot failed.'); return; }
+                var url = URL.createObjectURL(blob);
+                var link = document.createElement('a');
+                link.download = filename; link.href = url;
+                document.body.appendChild(link); link.click(); document.body.removeChild(link);
+                setTimeout(function() { URL.revokeObjectURL(url); }, 5000);
+            }, 'image/png');
+        }).catch(function(err) { console.error(err); alert('Screenshot failed.'); })
+        .finally(function() {
+            window.getComputedStyle = origGCS;
+            overrideStyle.remove();
+            target.style.background = origBg;
+            menu.style.display = '';
+            label.textContent = origText;
+            btn.style.pointerEvents = '';
+            menu.classList.remove('open');
+            window.scrollTo(0, scrollPos);
+        });
+    };
+    if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(function() { setTimeout(capture, 50); });
+    } else {
+        setTimeout(capture, 500);
+    }
+}
+
+// ========== CHARTS ==========
+var chartInstances = {};
+
+function themeColors() {
+    var dark = document.body.classList.contains('dark-mode');
+    return {
+        navy:    dark ? '#4a5f8a' : '#0f1a2e',
+        navySoft:dark ? '#3a4a6d' : '#1f2e4d',
+        gold:    dark ? '#e0b45a' : '#b8863b',
+        goldSoft:dark ? '#efc972' : '#d4a656',
+        sage:    dark ? '#90b498' : '#4d6b53',
+        claret:  dark ? '#d47a8b' : '#8a2a3c',
+        muted:   dark ? '#6c7484' : '#7a8497',
+        text:    dark ? '#ece7d3' : '#101828',
+        grid:    dark ? 'rgba(244,236,215,0.08)' : 'rgba(15,26,46,0.08)',
+        border:  dark ? '#3a4a6d' : '#d9d2c2'
+    };
+}
+
+function makeCostChart() {
+    var ctx = document.getElementById('costChart');
+    if (!ctx) return;
+    var c = themeColors();
+    if (chartInstances.cost) chartInstances.cost.destroy();
+    chartInstances.cost = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Option A · Buy Now', 'Option B · Rent, then Buy'],
+            datasets: [
+                { label: 'Insurance',                    data: [803, 0],   backgroundColor: c.navy,     borderRadius: 2, borderSkipped: false },
+                { label: 'Depreciation',                 data: [1064, 0],  backgroundColor: c.navySoft, borderRadius: 2, borderSkipped: false },
+                { label: 'Opp. cost — vehicle & taxes',  data: [620, 0],   backgroundColor: c.claret,   borderRadius: 2, borderSkipped: false },
+                { label: 'Rental #1 · $850',             data: [0, 850],   backgroundColor: c.gold,     borderRadius: 2, borderSkipped: false },
+                { label: 'Rental #2 · $878',             data: [0, 878],   backgroundColor: c.goldSoft, borderRadius: 2, borderSkipped: false }
+            ]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false, indexAxis: 'y',
+            layout: { padding: { top: 4 } },
+            scales: {
+                x: { stacked: true, grid: { color: c.grid, drawBorder: false }, ticks: { color: c.muted, font: { family: 'IBM Plex Mono', size: 11 }, callback: function(v) { return '$' + v.toLocaleString(); } } },
+                y: { stacked: true, grid: { display: false }, ticks: { color: c.text, font: { family: 'Fraunces', size: 13, weight: '600' } } }
+            },
+            plugins: {
+                legend: { position: 'bottom', labels: { color: c.text, font: { family: 'IBM Plex Sans', size: 11 }, boxWidth: 12, padding: 14, usePointStyle: true } },
+                tooltip: { backgroundColor: c.navy, titleFont: { family: 'Fraunces', size: 13 }, bodyFont: { family: 'IBM Plex Mono', size: 12 }, padding: 10, callbacks: { label: function(ctx) { return ctx.dataset.label + ': $' + ctx.parsed.x.toLocaleString(); } } }
+            }
+        }
+    });
+}
+
+function makeBreakEvenChart() {
+    var ctx = document.getElementById('breakEvenChart');
+    if (!ctx) return;
+    var c = themeColors();
+    if (chartInstances.be) chartInstances.be.destroy();
+
+    // Sweep rental daily rates from $15 to $60
+    var rates = [];
+    for (var r = 15; r <= 60; r += 2.5) rates.push(r);
+    var optionATotal = rates.map(function() { return 2487; });
+    var optionBTotal = rates.map(function(r) { return Math.round(r * 61); });
+
+    chartInstances.be = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: rates.map(function(r) { return '$' + r; }),
+            datasets: [
+                {
+                    label: 'Option A · Buy Now (constant)',
+                    data: optionATotal,
+                    borderColor: c.navy, backgroundColor: 'transparent',
+                    borderWidth: 2.5, borderDash: [6, 4],
+                    pointRadius: 0, tension: 0
+                },
+                {
+                    label: 'Option B · Rent, then Buy',
+                    data: optionBTotal,
+                    borderColor: c.gold, backgroundColor: 'rgba(184,134,59,0.08)',
+                    borderWidth: 3, fill: true,
+                    pointRadius: 0, tension: 0.1
+                },
+                {
+                    label: 'Your actual rate · $28.33/day',
+                    data: rates.map(function(r) { return r === 27.5 || r === 30 ? 1728 : null; }),
+                    pointBackgroundColor: c.sage, pointBorderColor: '#fff',
+                    pointRadius: 0, pointHoverRadius: 0,
+                    showLine: false, borderColor: 'transparent'
+                }
+            ]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            layout: { padding: { top: 10 } },
+            interaction: { mode: 'index', intersect: false },
+            scales: {
+                x: { title: { display: true, text: 'Daily rental rate (USD)', color: c.muted, font: { family: 'IBM Plex Mono', size: 11, weight: '500' } }, grid: { color: c.grid, drawBorder: false }, ticks: { color: c.muted, font: { family: 'IBM Plex Mono', size: 10 }, maxRotation: 0, autoSkip: true, maxTicksLimit: 10 } },
+                y: { title: { display: true, text: 'Total cost over 111 days (USD)', color: c.muted, font: { family: 'IBM Plex Mono', size: 11, weight: '500' } }, grid: { color: c.grid, drawBorder: false }, ticks: { color: c.muted, font: { family: 'IBM Plex Mono', size: 10 }, callback: function(v) { return '$' + v.toLocaleString(); } } }
+            },
+            plugins: {
+                legend: { position: 'bottom', labels: { color: c.text, font: { family: 'IBM Plex Sans', size: 11 }, boxWidth: 14, padding: 14, usePointStyle: true, filter: function(item) { return item.text.indexOf('actual rate') === -1; } } },
+                tooltip: { backgroundColor: c.navy, titleFont: { family: 'Fraunces', size: 13 }, bodyFont: { family: 'IBM Plex Mono', size: 12 }, padding: 10, callbacks: { label: function(ctx) { return ctx.dataset.label + ': $' + (ctx.parsed.y || 0).toLocaleString(); } } },
+                annotation: {}
+            }
+        },
+        plugins: [{
+            id: 'markerPlugin',
+            afterDatasetsDraw: function(chart) {
+                var ctxCanvas = chart.ctx;
+                var xScale = chart.scales.x;
+                var yScale = chart.scales.y;
+                var col = themeColors();
+
+                // Draw vertical line at actual rental rate ($28.33)
+                var actualRate = 28.33;
+                var idx = (actualRate - 15) / 2.5; // interpolated index
+                var xPos = xScale.getPixelForValue(rates[Math.round(idx)]);
+                // Interpolate more precisely
+                var lower = Math.floor(idx);
+                var upper = Math.ceil(idx);
+                if (upper < rates.length) {
+                    var frac = idx - lower;
+                    xPos = xScale.getPixelForValue(rates[lower]) + frac * (xScale.getPixelForValue(rates[upper]) - xScale.getPixelForValue(rates[lower]));
+                }
+                var yTop = yScale.getPixelForValue(yScale.max);
+                var yBottom = yScale.getPixelForValue(yScale.min);
+                var yActual = yScale.getPixelForValue(Math.round(actualRate * 61));
+
+                ctxCanvas.save();
+                ctxCanvas.strokeStyle = col.sage;
+                ctxCanvas.lineWidth = 2;
+                ctxCanvas.setLineDash([4, 4]);
+                ctxCanvas.beginPath();
+                ctxCanvas.moveTo(xPos, yTop);
+                ctxCanvas.lineTo(xPos, yBottom);
+                ctxCanvas.stroke();
+                ctxCanvas.setLineDash([]);
+
+                // Marker dot
+                ctxCanvas.fillStyle = col.sage;
+                ctxCanvas.strokeStyle = '#fff';
+                ctxCanvas.lineWidth = 2;
+                ctxCanvas.beginPath();
+                ctxCanvas.arc(xPos, yActual, 6, 0, 2 * Math.PI);
+                ctxCanvas.fill();
+                ctxCanvas.stroke();
+
+                // Label
+                ctxCanvas.fillStyle = col.sage;
+                ctxCanvas.font = '600 11px "IBM Plex Mono"';
+                ctxCanvas.textAlign = 'left';
+                ctxCanvas.fillText('YOU · $28.33/day', xPos + 10, yActual - 8);
+                ctxCanvas.font = '400 10px "IBM Plex Mono"';
+                ctxCanvas.fillStyle = col.muted;
+                ctxCanvas.fillText('$1,728 total', xPos + 10, yActual + 6);
+
+                // Break-even vertical line at $40.77
+                var beRate = 40.77;
+                var beIdx = (beRate - 15) / 2.5;
+                var beLower = Math.floor(beIdx);
+                var beUpper = Math.ceil(beIdx);
+                var beX = xScale.getPixelForValue(rates[beLower]);
+                if (beUpper < rates.length) {
+                    var beFrac = beIdx - beLower;
+                    beX = xScale.getPixelForValue(rates[beLower]) + beFrac * (xScale.getPixelForValue(rates[beUpper]) - xScale.getPixelForValue(rates[beLower]));
+                }
+                ctxCanvas.strokeStyle = col.claret;
+                ctxCanvas.lineWidth = 1.5;
+                ctxCanvas.setLineDash([2, 3]);
+                ctxCanvas.beginPath();
+                ctxCanvas.moveTo(beX, yTop);
+                ctxCanvas.lineTo(beX, yBottom);
+                ctxCanvas.stroke();
+                ctxCanvas.setLineDash([]);
+
+                ctxCanvas.fillStyle = col.claret;
+                ctxCanvas.font = '600 10px "IBM Plex Mono"';
+                ctxCanvas.textAlign = 'right';
+                ctxCanvas.fillText('BREAK-EVEN $40.77', beX - 6, yTop + 14);
+                ctxCanvas.restore();
+            }
+        }]
+    });
+}
+
+window._rerenderCharts = function() {
+    makeCostChart();
+    makeBreakEvenChart();
+};
+
+function initCharts() {
+    if (typeof Chart === 'undefined') {
+        setTimeout(initCharts, 100);
+        return;
+    }
+    makeCostChart();
+    makeBreakEvenChart();
+}
+if (document.readyState === 'complete') {
+    initCharts();
+} else {
+    window.addEventListener('load', initCharts);
+}
+</script>
+
+<!-- FEEDBACK-CSS -->
+<style>
+.fb-toggle {
+    position: fixed;
+    top: 1rem;
+    right: 3.5rem;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--surface, #fff);
+    border: 1px solid var(--border, #e2e8f0);
+    border-radius: 8px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.75rem;
+    color: var(--text-secondary, #64748b);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: background 0.15s, border-color 0.15s;
+}
+.fb-toggle:hover { background: var(--surface-hover, #f8fafc); border-color: var(--border-strong, #cbd5e1); }
+.fb-toggle.active { background: var(--primary, #0d9488); color: #fff; border-color: var(--primary, #0d9488); }
+.fb-section { position: relative; }
+.fb-trigger {
+    position: absolute; top: 0.4rem; right: 0.4rem;
+    width: 20px; height: 20px; border-radius: 4px;
+    background: var(--primary, #0d9488); color: #fff;
+    border: none; cursor: pointer; font-size: 11px; line-height: 20px; text-align: center;
+    opacity: 0.5; transition: opacity 0.2s, transform 0.15s;
+    z-index: 100; box-shadow: 0 1px 4px rgba(0,0,0,0.12); display: none;
+}
+body.fb-mode-on .fb-trigger { display: block; }
+.fb-trigger:hover { opacity: 1; transform: scale(1.15); }
+.fb-inline-form {
+    position: absolute; top: 0.5rem; right: 2.8rem;
+    background: var(--surface, #fff); border: 1px solid var(--border, #d0ddd6); border-radius: 10px;
+    padding: 0.75rem; width: 280px; box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+    z-index: 101; display: none;
+}
+.fb-inline-form.open { display: block; }
+.fb-inline-form textarea {
+    width: 100%; min-height: 60px; border: 1px solid var(--border, #d0ddd6); border-radius: 6px;
+    padding: 0.5rem; font-family: var(--font-body, sans-serif); font-size: 0.8rem; resize: vertical;
+    background: var(--bg, #f4f7f6); color: var(--text-primary, #0f1f1a);
+}
+.fb-inline-form textarea:focus { outline: 2px solid var(--primary, #0d9488); border-color: transparent; }
+.fb-inline-form .fb-actions { display: flex; gap: 0.4rem; margin-top: 0.5rem; justify-content: flex-end; }
+.fb-inline-form button { padding: 0.3rem 0.7rem; border-radius: 6px; border: none; font-size: 0.75rem; cursor: pointer; font-weight: 500; }
+.fb-submit { background: var(--primary, #0d9488); color: #fff; }
+.fb-submit:hover { filter: brightness(1.1); }
+.fb-cancel { background: var(--bg-alt, #eaf0ee); color: var(--text-secondary, #4a6359); }
+.fb-section-label { font-size: 0.65rem; color: var(--text-muted, #7a9589); margin-bottom: 0.3rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+.fb-toast {
+    position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(20px);
+    background: var(--text-primary, #0f1f1a); color: #fff; padding: 0.5rem 1.2rem; border-radius: 8px;
+    font-size: 0.8rem; opacity: 0; transition: opacity 0.3s, transform 0.3s; z-index: 300; pointer-events: none;
+}
+.fb-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.fb-toggle-hint { font-size: 0.6rem; opacity: 0.7; display: none; }
+.fb-toggle.fb-no-px .fb-toggle-hint { display: inline; }
+.fb-toggle.fb-no-px { cursor: default; opacity: 0.75; }
+@media print { .fb-toggle, .fb-trigger, .fb-inline-form { display: none !important; } }
+</style>
+
+<!-- FEEDBACK-HTML -->
+<button class="fb-toggle" id="fb-toggle" onclick="window._fbToggleMode()" title="Toggle feedback mode">
+    <span id="fb-toggle-icon">&#128172;</span>
+    <span id="fb-toggle-label">Feedback</span>
+    <span class="fb-toggle-hint">(Pixelcloud only)</span>
+</button>
+<div class="fb-toast" id="fb-toast"></div>
+
+<!-- FEEDBACK-JS -->
+<script>
+(function() {
+    var inPixelcloud = false;
+    if (window.parent !== window) {
+        try {
+            var parentHref = window.parent.location.href;
+            inPixelcloud = parentHref.indexOf('internalfb.com/intern/px') !== -1;
+        } catch (e) { inPixelcloud = true; }
+    }
+    var toggleBtn = document.getElementById('fb-toggle');
+    if (!inPixelcloud) toggleBtn.classList.add('fb-no-px');
+    var defaultSetting = toggleBtn ? toggleBtn.getAttribute('data-feedback-default') : null;
+    var feedbackEnabled = inPixelcloud && defaultSetting !== 'off';
+    var initialized = false;
+
+    function discoverSections() {
+        var SKIP = ['viz-menu', 'viz-menu-panel', 'fb-toggle', 'fb-toast', 'fb-inline-form'];
+        var seen = new Set();
+        var candidates = [];
+        var autoIdx = 0;
+        document.querySelectorAll('h1, h2, h3, h4, [class*="-title"], [class*="-header"]').forEach(function(h) {
+            if (!h.textContent || h.tagName === 'STYLE' || h.tagName === 'SCRIPT') return;
+            var text = h.textContent.replace(/\s+/g, ' ').trim();
+            if (text.length === 0 || text.length > 100) return;
+            var parent = h.closest('.step, .step-inner, .section, .card, .callout, .slide, .block, .panel, .phase, section, article, [data-feedback-section]') || h.parentElement;
+            if (!parent || parent === document.body || seen.has(parent)) return;
+            for (var i = 0; i < SKIP.length; i++) if (parent.classList.contains(SKIP[i])) return;
+            seen.add(parent);
+            autoIdx++;
+            if (!parent.id) parent.id = 'fb-s' + autoIdx;
+            candidates.push({ el: parent, id: parent.id, name: text.substring(0, 80) });
+        });
+        return candidates.filter(function(a) { return !candidates.some(function(b) { return b !== a && a.el.contains(b.el); }); });
+    }
+
+    var PARENT_ORIGIN = 'https://www.internalfb.com';
+    window.addEventListener('message', function(event) {
+        if (event.origin !== PARENT_ORIGIN) return;
+        if (event.data && event.data.type === 'px-comment-result') {
+            toast(event.data.status === 'success' ? 'Comment posted!' : 'Error posting comment');
+        }
+    });
+
+    function initSections() {
+        if (initialized) return;
+        initialized = true;
+        discoverSections().forEach(function(s) {
+            var el = s.el, id = s.id, name = s.name;
+            if (el.classList.contains('fb-section')) return;
+            var anchor = el.querySelector('.step-inner, .card, .card-body, .content') || el;
+            anchor.classList.add('fb-section');
+            if (!anchor.style.position || anchor.style.position === 'static') anchor.style.position = 'relative';
+            var btn = document.createElement('button');
+            btn.className = 'fb-trigger';
+            btn.innerHTML = '&#128172;';
+            btn.title = 'Feedback on: ' + name;
+            btn.onclick = function(e) { e.stopPropagation(); openForm(anchor, id, name); };
+            anchor.appendChild(btn);
+        });
+    }
+
+    window._fbToggleMode = function() {
+        if (!inPixelcloud) { toast('Feedback comments require viewing via a Pixelcloud link'); return; }
+        feedbackEnabled = !feedbackEnabled;
+        document.body.classList.toggle('fb-mode-on', feedbackEnabled);
+        var toggleBtn = document.getElementById('fb-toggle');
+        var toggleLabel = document.getElementById('fb-toggle-label');
+        toggleBtn.classList.toggle('active', feedbackEnabled);
+        toggleLabel.textContent = feedbackEnabled ? 'Feedback On' : 'Feedback';
+        if (feedbackEnabled) { initSections(); toast('Feedback mode enabled — click any section icon'); }
+        else { document.querySelectorAll('.fb-inline-form.open').forEach(function(f) { f.classList.remove('open'); }); toast('Feedback mode disabled'); }
+    };
+
+    function openForm(el, id, name) {
+        document.querySelectorAll('.fb-inline-form.open').forEach(function(f) { f.classList.remove('open'); });
+        var form = el.querySelector('.fb-inline-form');
+        if (!form) {
+            form = document.createElement('div'); form.className = 'fb-inline-form';
+            var label = document.createElement('div'); label.className = 'fb-section-label'; label.textContent = name; form.appendChild(label);
+            var textarea = document.createElement('textarea'); textarea.placeholder = 'What would you change?'; form.appendChild(textarea);
+            var actions = document.createElement('div'); actions.className = 'fb-actions';
+            var cancelBtn = document.createElement('button'); cancelBtn.className = 'fb-cancel'; cancelBtn.textContent = 'Cancel';
+            cancelBtn.addEventListener('click', function() { form.classList.remove('open'); });
+            actions.appendChild(cancelBtn);
+            var submitBtn = document.createElement('button'); submitBtn.className = 'fb-submit'; submitBtn.textContent = 'Add';
+            submitBtn.addEventListener('click', function() { window._fbSubmit(id, submitBtn); });
+            actions.appendChild(submitBtn);
+            form.appendChild(actions);
+            form.addEventListener('click', function(e) { e.stopPropagation(); });
+            el.appendChild(form);
+        }
+        form.classList.add('open');
+        form.querySelector('textarea').focus();
+    }
+
+    window._fbSubmit = function(sectionId, btn) {
+        var form = btn.closest('.fb-inline-form');
+        var ta = form.querySelector('textarea');
+        var text = ta.value.trim();
+        if (!text) return;
+        var label = form.querySelector('.fb-section-label');
+        var sectionName = label ? label.textContent : sectionId;
+        ta.value = ''; form.classList.remove('open');
+        try { window.parent.postMessage({ type: 'px-section-comment', section_label: sectionName, element_id: sectionId, text: text }, PARENT_ORIGIN); toast('Comment sent...'); }
+        catch(e) { toast('Failed: ' + e.message); }
+    };
+
+    function toast(msg) {
+        var t = document.getElementById('fb-toast');
+        if (!t) return;
+        t.textContent = msg; t.classList.add('show');
+        setTimeout(function() { t.classList.remove('show'); }, 2500);
+    }
+
+    function applyDefault() {
+        if (feedbackEnabled) {
+            document.body.classList.add('fb-mode-on');
+            toggleBtn.classList.add('active');
+            document.getElementById('fb-toggle-label').textContent = 'Feedback On';
+            initSections();
+        }
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', applyDefault);
+    else applyDefault();
+})();
+</script>
+
+</body>
+</html>
